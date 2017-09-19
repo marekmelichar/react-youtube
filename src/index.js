@@ -5,7 +5,9 @@ import YTSearch from 'youtube-api-search';
 import SearchBar from './components/search_bar';
 import VideoList from './components/video_list';
 import VideoDetail from './components/video_detail';
+
 const API_KEY = 'AIzaSyAuQCVeNfKhtRk9KlChQPT1nO27DPO_5Ss';
+const BANNED_WORDS = window.BANNED_WORDS;
 
 class App extends Component {
   constructor(props) {
@@ -18,9 +20,14 @@ class App extends Component {
 
     this.videoSearch('surfboards');
   }
-
+// slenderman
   videoSearch(term) {
-    YTSearch({key: API_KEY, term: term}, (videos) => {
+    console.log('term', term);
+    if (BANNED_WORDS.includes(term)) {
+      return false;
+    }
+
+    return YTSearch({key: API_KEY, term: term}, (videos) => {
       this.setState({
         videos: videos,
         selectedVideo: videos[0]
@@ -30,6 +37,7 @@ class App extends Component {
 
   render() {
     const videoSearch = _.debounce((term) => { this.videoSearch(term) }, 300);
+    // const videoSearch = term => { this.videoSearch(term) };
 
     return (
       <div>

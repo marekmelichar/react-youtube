@@ -19,7 +19,15 @@ class SearchBar extends Component {
 
   onInputChange(term) {
     this.setState({term});
-    this.props.onSearchTermChange(term);
+
+    // if (BANNED_WORDS.includes(term)) {
+    //   console.log('term', term);
+    //
+    //   return false;
+    // } else {
+    // }
+
+    return this.props.onSearchTermChange(term);
   }
 }
 
