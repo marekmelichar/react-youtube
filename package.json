@@ -2,7 +2,7 @@
   "author": "Marek Melichar",
   "main": "index.js",
   "scripts": {
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline",
+    "start": "webpack-dev-server --inline",
     "build": "webpack -p"
   },
   "license": "ISC",
@@ -17,13 +17,18 @@
   },
   "dependencies": {
     "axios": "^0.14.0",
+    "firebase": "^4.3.1",
     "lodash": "^4.17.4",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
+    "react-modal": "^2.3.2",
     "react-redux": "^4.0.0",
+    "react-router-dom": "^4.2.2",
     "react-youtube": "^7.4.0",
     "redux": "^3.0.4",
+    "redux-form": "^7.0.4",
     "redux-promise": "^0.5.3",
+    "styled-components": "^2.1.2",
     "youtube-api-search": "0.0.5"
   }
 }

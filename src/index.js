@@ -1,54 +1,31 @@
-import _ from 'lodash';
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import YTSearch from 'youtube-api-search';
-import SearchBar from './components/search_bar';
-import VideoList from './components/video_list';
-import VideoDetail from './components/video_detail';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import promise from "redux-promise";
 
-const API_KEY = 'AIzaSyAuQCVeNfKhtRk9KlChQPT1nO27DPO_5Ss';
-const BANNED_WORDS = window.BANNED_WORDS;
+import * as firebase from 'firebase';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+import reducers from "./reducers";
 
-    this.state = {
-      videos: [],
-      selectedVideo: null
-    };
+import App from "./containers/app";
 
-    this.videoSearch('surfboards');
-  }
-// slenderman
-  videoSearch(term) {
-    console.log('term', term);
-    if (BANNED_WORDS.includes(term)) {
-      return false;
-    }
+const config = {
+  apiKey: "AIzaSyAThcIZYMa0oKpSctVBGFwMDoYYi7_DqmI",
+  authDomain: "youtube-abda8.firebaseapp.com",
+  databaseURL: "https://youtube-abda8.firebaseio.com",
+  projectId: "youtube-abda8",
+  storageBucket: "",
+  messagingSenderId: "606515820105"
+};
 
-    return YTSearch({key: API_KEY, term: term}, (videos) => {
-      this.setState({
-        videos: videos,
-        selectedVideo: videos[0]
-      });
-    });
-  }
+firebase.initializeApp(config);
 
-  render() {
-    const videoSearch = _.debounce((term) => { this.videoSearch(term) }, 300);
-    // const videoSearch = term => { this.videoSearch(term) };
+const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
-    return (
-      <div>
-        <SearchBar onSearchTermChange={videoSearch} />
-        <VideoDetail video={this.state.selectedVideo} />
-        <VideoList
-          onVideoSelect={selectedVideo => this.setState({selectedVideo}) }
-          videos={this.state.videos} />
-      </div>
-    );
-  }
-}
-
-ReactDOM.render(<App />, document.getElementById('main'));
+ReactDOM.render(
+  <Provider store={createStoreWithMiddleware(reducers)}>
+    <App />
+  </Provider>,
+  document.getElementById("main")
+);
