@@ -1064,6 +1064,92 @@ h4 {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+**************** NEW STYLES
+*/
+
+/*.html5-video-player .ytp-watermark {
+  pointer-events: none;
+}*/
+
+iframe{
+  pointer-events: none;
+}
+/*
+.video-detail {
+  position: relative;
+  z-index: 1;
+}
+
+.iframe-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+.curtain {
+  position: absolute;
+  width: 100%;
+  height: 100px;
+  background: transparent;
+  top: 0;
+  pointer-events: none;
+  z-index: 9999999999;
+}*/
+
+
+
+
+
+
+
+
+
+
 /*
 ********* MEDIA QUERIES
 */

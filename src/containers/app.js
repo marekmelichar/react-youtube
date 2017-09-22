@@ -10,7 +10,7 @@ import * as firebase from 'firebase';
 
 import SignIn from './signin/SignIn';
 import SignUp from './signup/SignUp';
-import MainContent from './main_content/MainContent';
+import MainContentPlayer from './main_content/MainContentPlayer';
 import Spinner from '../components/spinner/Spinner';
 import ParentsPage from './parents_page/ParentsPage';
 
@@ -83,7 +83,7 @@ class App extends Component {
         <Switch>
           <PublicRoute authed={this.state.authed} path='/' exact component={SignIn} />
           <PublicRoute authed={this.state.authed} path='/signup' component={SignUp} />
-          <PrivateRoute authed={this.state.authed} path='/player' component={MainContent}/>
+          <PrivateRoute authed={this.state.authed} path='/player' component={MainContentPlayer}/>
           <PrivateRoute authed={this.state.authed} path='/parents' component={ParentsPage}/>
 
           <Route component={NoMatch} />

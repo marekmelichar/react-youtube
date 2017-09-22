@@ -14,19 +14,16 @@ class Header extends Component {
     this.state = {
       parentsModal: false,
       parentEmail: '',
-      parentPassword: ''
+      parentPassword: '',
+      authError: ''
     }
   }
 
   parentSection(event) {
     event.preventDefault()
-    console.log('click');
-
 
     // open the modal with password input
     this.setState({ parentsModal: true })
-
-
   }
 
   logout(event) {
@@ -43,15 +40,16 @@ class Header extends Component {
   verifyPassword(event) {
     event.preventDefault()
 
-    // console.log('firebase.auth().currentUser', firebase.auth().currentUser);
     var user = firebase.auth().currentUser;
-    // var credential = {
-    //   password: this.state.parentPassword
-    // }
 
     // Prompt the user to re-provide their sign-in credentials
 
     // user.reauthenticateWithCredential(credential)
+
+
+    console.log('this.state.parentEmail, this.state.parentPassword', this.state.parentEmail, this.state.parentPassword);
+
+
     const _this = this;
 
     firebase.auth().signInWithEmailAndPassword(this.state.parentEmail, this.state.parentPassword)
@@ -59,10 +57,19 @@ class Header extends Component {
         // User re-authenticated.
         console.log('res', res);
 
+
+        // if success, close the modal
+        _this.setState({
+          parentsModal: false,
+          authError: ''
+        })
+
         _this.props.history.push('/parents')
+
       }).catch(function(error) {
         // An error happened.
         console.log('error of reauth', error);
+        _this.setState({ authError: error.message })
       });
 
 
@@ -72,12 +79,24 @@ class Header extends Component {
     // if password is verified as OK, redirect user to /parents page
     // if password is not ok, show error
 
-    this.setState({ parentsModal: false })
   }
 
+  logoutToMainContent(e) {
+    e.preventDefault()
+
+    this.props.history.push('/player')
+  }
+
+  renderParentsLink() {
+    if (this.props.history.location.pathname === '/parents') {
+      return <Link to="/player">Back</Link>
+    }
+
+    return <Link to="/parents" onClick={event => this.parentSection(event)}>Parents</Link>
+  }
 
   render() {
-    console.log('this.state.parentsModal', this.state.parentsModal);
+    // console.log('this.props.history', this.props.history.location.pathname);
     return (
       <header className="header">
         <div className="">
@@ -87,13 +106,12 @@ class Header extends Component {
               app name
             </div>
             <div className="column size_50 for-button">
-              {/* <button onClick={this.openModal} type="button" className="btn btn-custom">Nová poznámka<IconPencil fill="#FFF" /></button> */}
             </div>
             <div className="column size_25 for-nav">
               <nav className="nav inline navbar-right text-right">
                 <ul>
-                  <li role="presentation"><a onClick={event => this.parentSection(event)}>Parents</a></li>
-                  <li role="presentation"><a onClick={event => this.logout(event)}>Logout</a></li>
+                  {this.renderParentsLink()}
+                  <Link to="/" onClick={event => this.logout(event)}>Logout</Link>
                 </ul>
               </nav>
             </div>
@@ -113,6 +131,8 @@ class Header extends Component {
             onChange={e => this.setState({ parentPassword: e.target.value })}
           />
           <button onClick={e => this.verifyPassword(e)}>OK</button>
+          <button onClick={() => this.setState({ parentsModal: false })}>Cancel</button>
+          <div>{this.state.authError}</div>
         </Modal>}
       </header>
     );
