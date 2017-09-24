@@ -4,9 +4,9 @@ import ReactDOM from 'react-dom';
 import YTSearch from 'youtube-api-search';
 
 import Header from '../header/Header';
-import SearchBar from '../../components/search_bar';
-import VideoList from '../../components/video_list';
-import VideoDetail from '../../components/video_detail';
+import SearchBar from '../../components/search_bar/SearchBar';
+import VideoList from '../../components/video_list/VideoList';
+import VideoDetail from '../../components/video_detail/VideoDetail';
 
 const API_KEY = 'AIzaSyAuQCVeNfKhtRk9KlChQPT1nO27DPO_5Ss';
 const BANNED_WORDS = window.BANNED_WORDS;

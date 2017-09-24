@@ -7,8 +7,14 @@ export default class VideoDetail extends Component {
     super(props)
 
     this.state = {
+      progress: 0
     }
   }
+
+  // componentDidMount() {
+  //   console.log('this.refs.play', this.refs.play);
+  //
+  // }
 
   // player(videoId, opts) {
   //   // return (
@@ -29,23 +35,53 @@ export default class VideoDetail extends Component {
 
   _onReady(event) {
     // access to player in all event handlers via event.target
-    // event.target.stopVideo();
-    // event.target.playVideo();
-    // event.target.pauseVideo();
+    const player = event.target
+
+    // this.refs.previous.addEventListener('click', function() {
+    //   event.target.previousVideo()
+    // })
+    //
+    // this.refs.reward.addEventListener('click', function() {
+    //   event.target.playVideo()
+    // })
 
     this.refs.play.addEventListener('click', function() {
-      event.target.playVideo()
+      player.playVideo()
     })
 
     this.refs.pause.addEventListener('click', function() {
-      event.target.pauseVideo()
+      player.pauseVideo()
     })
 
     this.refs.stop.addEventListener('click', function() {
-      event.target.stopVideo()
+      player.stopVideo()
     })
 
+    // this.refs.forward.addEventListener('click', function() {
+    //   event.target.playVideo()
+    // })
+
+    // this.refs.next.addEventListener('click', function() {
+    //   event.target.nextVideo()
+    // })
+
     // console.log('this.refs.pause', this.refs.pause);
+
+    // console.log('this.refs.progressBar', this.refs.progressBar);
+
+    const progress = document.getElementById('progress');
+
+    // progress.addEventListener('mouseup touchend input change click', function (e) {
+    progress.addEventListener('click', function (e) {
+
+      // Calculate the new time for the video.
+      // new time in seconds = total duration in seconds * ( value of range input / 100 )
+      var newTime = player.getDuration() * (e.target.value / 100);
+
+      // Skip video to new time.
+      player.seekTo(newTime);
+
+    });
   }
 
   // pause(e) {
@@ -57,6 +93,9 @@ export default class VideoDetail extends Component {
   // }
 
   render() {
+
+    // console.log('this.state.progress', this.state.progress);
+
     const {video} = this.props;
 
     if (!video) {
@@ -83,11 +122,14 @@ export default class VideoDetail extends Component {
       }
     };
 
-    let player = <YouTube
-      videoId={videoId}
-      opts={opts}
-      onReady={this._onReady.bind(this)}
-    />
+    // const player = <YouTube
+    //   videoId={videoId}
+    //   opts={opts}
+    //   onReady={this._onReady.bind(this)}
+    // />
+
+    // console.log('this.player', this.player);
+
 
     return (
       <div className="video-detail col-md-8">
@@ -99,17 +141,37 @@ export default class VideoDetail extends Component {
             onReady={this._onReady.bind(this)}
           /> */}
 
-          {player}
+          {/* {player} */}
 
           {/* {this.player(videoId, opts)} */}
           {/* {this.state.player} */}
+
+          <YouTube
+            videoId={videoId}
+            opts={opts}
+            onReady={event => this._onReady(event)}
+            // onReady={this._onReady.bind(this)}
+          />
         </div>
         {/* <div className="curtain" onClick={event => this.disableClick(event)}></div> */}
 
+        <div className="video-progress">
+          <input
+            type="range"
+            id="progress"
+            onChange={e => this.setState({ progress: e.target.value })}
+            value={this.state.progress}
+          />
+        </div>
+
         <div className="video-controls">
+          {/* <button ref="previous">Previous video</button> */}
+          {/* <button ref="reward">Reward</button> */}
           <button ref="play">Play</button>
           <button ref="pause">Pause</button>
           <button ref="stop">Stop</button>
+          {/* <button ref="forward">Forward</button> */}
+          {/* <button ref="next">Next video</button> */}
         </div>
 
         <div className="details">

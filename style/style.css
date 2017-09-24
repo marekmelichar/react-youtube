@@ -1117,8 +1117,11 @@ h4 {
   pointer-events: none;
 }*/
 
-iframe{
+iframe,
+.embed-responsive iframe,
+.iframe-wrapper {
   pointer-events: none;
+  touch-action: none;
 }
 /*
 .video-detail {
